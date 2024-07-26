@@ -44,4 +44,14 @@ $confirmations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach ($confirmations as $confirmation) {
     echo htmlspecialchars($confirmation['name']) . " - " . htmlspecialchars($confirmation['attendance']) . "<br>";
 }
+$db = new PDO('sqlite:confirmations.db');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+// Consultar todas as confirmações no banco de dados
+$stmt = $db->query("SELECT name, attendance FROM confirmations");
+$confirmations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Converter os resultados em JSON e enviá-los de volta ao cliente
+header('Content-Type: application/json');
+echo json_encode($confirmations);
 ?>

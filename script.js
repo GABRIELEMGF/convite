@@ -65,6 +65,23 @@ function addEventToCalendar() {
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
 
-
+    document.getElementById('fetchConfirmations').addEventListener('click', function() {
+        fetch('fetchConfirmations.php')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);  // Isso é só para debug, você pode remover depois
+            let resultSection = document.getElementById('resultSection');
+            resultSection.innerHTML = '';
+            data.forEach(item => {
+                let p = document.createElement('p');
+                p.textContent = `${item.name} - ${item.attendance}`;
+                resultSection.appendChild(p);
+            });
+        })
+        .catch(error => {
+            console.error('Erro ao buscar confirmações:', error);
+        });
+    });
+    
 
 };
